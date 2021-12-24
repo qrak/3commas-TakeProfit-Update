@@ -63,7 +63,6 @@ def update_bot_deals_profit(deal: typing.ClassVar, active_deal, deal_index: int,
         else:
             take_profit = calculate_step_scale_profit(bot_take_profit, current_deal_take_profit,
                                                       current_deal_completed_so)
-
         if take_profit:
             try:
                 deal.update_deal_take_profit(deal_index, take_profit)
@@ -81,7 +80,6 @@ async def loop_through_bot_id_from_config():
         deal_ids = int()
         active_deal = int()
         current_bot_take_profit = float()
-
         for bot_id in config.BOT_IDS:
             try:
                 bot = Bots(bot_id)
@@ -91,8 +89,8 @@ async def loop_through_bot_id_from_config():
                 deal_ids = deals.get_deals_ids()
             except KeyError as e:
                 logger.error("Wrong bot id: %s!", e)
-                for deal_index in deal_ids:
-                    update_bot_deals_profit(deals, active_deal, deal_index, bot_id, current_bot_take_profit)
+            for deal_index in deal_ids:
+                update_bot_deals_profit(deals, active_deal, deal_index, bot_id, current_bot_take_profit)
 
         if config.TIME_INTERVAL > 0:
             logger.info("Checking deals finished, next iteration in: %s seconds", config.TIME_INTERVAL)
